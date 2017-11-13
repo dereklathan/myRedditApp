@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package com.redditapp.rest.resource;
+
 import com.redditapp.authorization.AuthorizationUtil;
-import com.redditapp.rest.client.AuthorizorClient;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -19,16 +19,8 @@ import com.redditapp.dao.ClientInfoDao;
 import com.redditapp.dao.RedditUserClientInfoDao;
 import com.redditapp.entity.ClientInfo;
 import com.redditapp.entity.RedditUserClientInfo;
-import com.redditapp.entity.TokenInfo;
 import javax.ws.rs.PathParam;
-import com.redditapp.rest.client.response.AccessTokenResponse;
-import com.redditapp.dao.TokenInfoDao;
 import com.redditapp.rest.client.AccountClient;
-import com.redditapp.rest.client.ListingsClient;
-import com.redditapp.rest.client.response.SubredditListingResponse;
-import com.redditapp.rest.client.response.components.KarmaList;
-import com.redditapp.rest.client.response.components.SubredditListingChild;
-import java.time.LocalDateTime;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -44,11 +36,8 @@ public class Authorizor {
     @Inject private RedditUserDao redditUserDao;
     @Inject private ClientInfoDao clientInfoDao;
     @Inject private RedditUserClientInfoDao redditUserClientInfoDao;
-    @Inject private TokenInfoDao tokenInfoDao;
-    @Inject private AuthorizorClient authorizorClient;
     @Inject private AuthorizationUtil authorizationUtil;
-    @Inject private AccountClient accountClient;
-    @Inject private ListingsClient listingsClient;
+    @Inject private AccountClient accountClient;;
     
     @Context
     UriInfo uri;
