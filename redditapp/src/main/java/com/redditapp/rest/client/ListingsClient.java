@@ -6,6 +6,7 @@
 package com.redditapp.rest.client;
 
 import com.redditapp.entity.RedditUserClientInfo;
+import com.redditapp.rest.client.response.LinkListingResponse;
 import com.redditapp.rest.client.response.SubredditListingResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
  */
 public class ListingsClient {
     @Inject GetClient<SubredditListingResponse> subredditListingClient;
+    @Inject GetClient<LinkListingResponse> linkListingClient;
     
     public SubredditListingResponse getPopularSubreddits(RedditUserClientInfo redditUserClientInfo) {
         return subredditListingClient.doGet(redditUserClientInfo, "/subreddits/popular", SubredditListingResponse.class);
@@ -26,6 +28,21 @@ public class ListingsClient {
         Map<String, String> queryParams = new HashMap();
         queryParams.put("after", afterKey);
         return subredditListingClient.doGet(redditUserClientInfo, "/subreddits/popular", SubredditListingResponse.class, queryParams);
+    }
+    
+    public LinkListingResponse getLinks(RedditUserClientInfo redditUserClientInfo, String path) {
+        return linkListingClient.doGet(redditUserClientInfo, path, LinkListingResponse.class);
+    }
+    
+    public LinkListingResponse getNextLinks(RedditUserClientInfo redditUserClientInfo, String path, String afterKey) {
+        Map<String, String> queryParams = new HashMap();
+        queryParams.put("after", afterKey);
+        return linkListingClient.doGet(redditUserClientInfo, path, LinkListingResponse.class, queryParams);
+    }
+    
+    //this method is for testing
+    public String checkEndpoint(RedditUserClientInfo redditUserClientInfo, String path) {
+        return subredditListingClient.doGet(redditUserClientInfo, path);
     }
     
     
