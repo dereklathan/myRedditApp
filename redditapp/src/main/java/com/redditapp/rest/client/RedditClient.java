@@ -30,12 +30,14 @@ public class RedditClient {
     protected String authHeader;
     protected String userAgent;
     protected JerseyClient client;
+    protected int retries;
     @Inject private TokenInfoDao tokenInfoDao;
     @Inject private AuthorizationUtil authorizationUtil;
     @Inject private Properties properties;
     
     protected void initClient(RedditUserClientInfo redditUserClientInfo) {
         url = properties.getRedditClientProperties().getApiUrl();
+        retries = properties.getRedditClientProperties().getRetries();
         tokenInfo = redditUserClientInfo.getTokenInfo();
         if(LocalDateTime.now().isAfter(tokenInfo.getExpiration())) {
             authorizationUtil.refreshToken(redditUserClientInfo);
