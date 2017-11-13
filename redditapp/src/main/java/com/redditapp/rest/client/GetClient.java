@@ -33,10 +33,22 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
                 target = target.queryParam(key, queryParams.get(key));
             }
         }
-        Response res = target.request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", authHeader)
-                .header("User-Agent", userAgent)
-                .get();
+        Response res = null;
+        for(int attempts=0;attempts<retries;) {
+            try {
+                res = target.request(MediaType.APPLICATION_JSON_TYPE)
+                        .header("Authorization", authHeader)
+                        .header("User-Agent", userAgent)
+                        .get();
+                break;
+            }
+            catch(RuntimeException ex) {
+                attempts++;
+                if(attempts == retries) {
+                    throw ex;
+                }
+            }
+        }
         T response;
         if(res.getStatus() == 200) {
             updateToken(res);
