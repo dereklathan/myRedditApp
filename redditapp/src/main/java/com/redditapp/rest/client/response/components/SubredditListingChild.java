@@ -9,15 +9,12 @@ package com.redditapp.rest.client.response.components;
  *
  * @author derek
  */
-public class SubredditListingChild {
-    private String kind;
+public class SubredditListingChild extends ListingChild{
+
     private Subreddit data;
-    
-    public String getKind() {
-        return kind;
-    }
     
     public Subreddit getSubreddit() {
         return data;
     }
+    
 }
