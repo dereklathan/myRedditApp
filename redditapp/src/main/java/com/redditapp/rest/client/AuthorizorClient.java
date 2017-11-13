@@ -82,10 +82,23 @@ public class AuthorizorClient {
                 .property(ClientProperties.READ_TIMEOUT, properties.getRedditClientProperties().getReadTimeout());
         JerseyClient client = JerseyClientBuilder.createClient(configuration);
         WebTarget target = client.target(properties.getRedditClientProperties().getAuthUrl()).path("api/v1/access_token");
-        Response res = target.request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", authorizationHeaderValue)
-                .header("User-Agent", userAgent)
-                .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
+        int retries = properties.getRedditClientProperties().getRetries();
+        Response res = null;
+        for(int attempts = 0;attempts<retries;) {
+            try {
+                res = target.request(MediaType.APPLICATION_JSON_TYPE)
+                        .header("Authorization", authorizationHeaderValue)
+                        .header("User-Agent", userAgent)
+                        .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
+                break;
+            }
+            catch(RuntimeException ex) {
+                attempts++;
+                if(attempts == retries) {
+                    throw ex;
+                }
+            }
+        }
         Gson gson = new Gson();
         AccessTokenResponse accessTokenResponse;
         if(res.getStatus() == 200) {
