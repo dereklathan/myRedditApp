@@ -30,4 +30,8 @@ public class RedditClientProperties extends PropertiesLoader{
         return Integer.parseInt(prop.getProperty("read_timeout"));
     }
     
+    public int getRetries() {
+        return Integer.parseInt(prop.getProperty("retries"));
+    }
+    
 }
