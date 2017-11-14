@@ -20,7 +20,7 @@ public class Link {
     private String likes;
     private String suggested_sort;
     private Object[] user_reports;
-    private String secure_media;
+    private Object secure_media;
     private boolean is_reddit_media_domain;
     private boolean saved;
     private String id;
@@ -42,7 +42,7 @@ public class Link {
     private boolean hidden;
     private String thumbnail;
     private String subreddit_id;
-    private boolean edited;
+    private String edited;
     private String link_flair_css_class;
     private String author_flair_css_class;
     private boolean contest_mode;
@@ -70,7 +70,7 @@ public class Link {
     private Float created_utc;
     private String subreddit_name_prefixed;
     private int ups;
-    private String media;
+    private Object media;
     private int num_comments;
     private boolean visited;
     private Integer num_reports;
@@ -109,7 +109,7 @@ public class Link {
         return suggested_sort;
     }
     
-    public String getSecureMedia() {
+    public Object getSecureMedia() {
         return secure_media;
     }
     
@@ -193,7 +193,7 @@ public class Link {
         return subreddit_id;
     }
     
-    public Boolean isEdited() {
+    public String getEdited() {
         return edited;
     }
     
