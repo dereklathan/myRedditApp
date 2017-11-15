@@ -9,7 +9,7 @@ package com.redditapp.rest.client.response.components;
  *
  * @author derek
  */
-public class Listing {
+public class Listing extends Thing{
     protected String modhash;
     protected String whitelist_status;
     protected String after;
