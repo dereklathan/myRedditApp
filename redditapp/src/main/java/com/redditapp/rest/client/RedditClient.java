@@ -5,11 +5,15 @@
  */
 package com.redditapp.rest.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.redditapp.authorization.AuthorizationUtil;
 import com.redditapp.dao.TokenInfoDao;
 import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.entity.TokenInfo;
 import com.redditapp.properties.Properties;
+import com.redditapp.rest.client.response.CommentListingResponse;
+import com.redditapp.rest.client.response.deserializer.CommentListingResponseDeserializer;
 import java.time.LocalDateTime;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,11 +35,15 @@ public class RedditClient {
     protected String userAgent;
     protected JerseyClient client;
     protected int retries;
+    protected Gson gson;
     @Inject private TokenInfoDao tokenInfoDao;
     @Inject private AuthorizationUtil authorizationUtil;
     @Inject private Properties properties;
     
     protected void initClient(RedditUserClientInfo redditUserClientInfo) {
+        GsonBuilder gsonBuilder = new GsonBuilder(); 
+        gsonBuilder.registerTypeAdapter(CommentListingResponse.class, new CommentListingResponseDeserializer());
+        gson = gsonBuilder.create();
         url = properties.getRedditClientProperties().getApiUrl();
         retries = properties.getRedditClientProperties().getRetries();
         tokenInfo = redditUserClientInfo.getTokenInfo();
