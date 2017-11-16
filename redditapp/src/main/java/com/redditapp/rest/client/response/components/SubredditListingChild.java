@@ -9,7 +9,7 @@ package com.redditapp.rest.client.response.components;
  *
  * @author derek
  */
-public class SubredditListingChild extends ListingChild{
+public class SubredditListingChild extends Thing{
 
     private Subreddit data;
     
