@@ -5,8 +5,6 @@
  */
 package com.redditapp.rest.client;
 
-
-import com.google.gson.Gson;
 import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.rest.client.response.RedditResponse;
 import java.util.Map;
@@ -53,7 +51,7 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
         if(res.getStatus() == 200) {
             updateToken(res);
             String json = res.readEntity(String.class);
-            response = new Gson().fromJson(json, responseClass);
+            response = gson.fromJson(json, responseClass);
         }
         else {
             
@@ -79,11 +77,17 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
      * 
      * @param redditUserClientInfo
      * @param path
+     * @param queryParams
      * @return raw JSON for building POJOs
      */
-    public String doGet(RedditUserClientInfo redditUserClientInfo, String path) {
+    public String doGet(RedditUserClientInfo redditUserClientInfo, String path, Map<String,String> queryParams) {
         initClient(redditUserClientInfo);
         WebTarget target = client.target(url).path(path);
+        if(queryParams != null) {
+            for(String key : queryParams.keySet()) {
+                target = target.queryParam(key, queryParams.get(key));
+            }
+        }
         Response res = target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", authHeader)
                 .header("User-Agent", userAgent)
@@ -99,6 +103,12 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
         res.close();
         return response;
     }
+    
+    public String doGet(RedditUserClientInfo redditUserClientInfo, String path) {
+        return doGet(redditUserClientInfo, path, (Map<String,String>)null);
+    }
+    
+    
 }
 
 
