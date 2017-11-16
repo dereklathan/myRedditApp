@@ -9,7 +9,7 @@ package com.redditapp.rest.client.response.components;
  *
  * @author derek
  */
-public class More {
+public class More extends Thing{
     private Integer count;
     private String name;
     private String id;
