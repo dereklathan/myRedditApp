@@ -6,7 +6,7 @@
 package com.redditapp.rest.client.response;
 
 import com.redditapp.rest.client.response.components.CommentListing;
-import com.redditapp.rest.client.response.components.ThreadLinkListing;
+import com.redditapp.rest.client.response.components.ThreadLink;
 
 
 /**
@@ -14,16 +14,16 @@ import com.redditapp.rest.client.response.components.ThreadLinkListing;
  * @author derek
  */
 public class CommentListingResponse extends RedditResponse {
-    private final ThreadLinkListing threadLinkListing;
+    private final ThreadLink threadLink;
     private final CommentListing commentListing;
     
-    public CommentListingResponse(ThreadLinkListing threadLinkListing, CommentListing commentListing) {
-        this.threadLinkListing = threadLinkListing;
+    public CommentListingResponse(ThreadLink threadLink, CommentListing commentListing) {
+        this.threadLink = threadLink;
         this.commentListing = commentListing;
     }
     
-    public ThreadLinkListing getThreadLinkListing() {
-        return threadLinkListing;
+    public ThreadLink getThreadLink() {
+        return threadLink;
     }
     
     public CommentListing getCommentListing() {
