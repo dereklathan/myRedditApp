@@ -12,5 +12,7 @@ package com.redditapp.rest.client.response.components;
 public class ThreadLink extends Link {
     private Float upvote_ratio;
     
-    public Float getUpvoteRatio;
+    public Float getUpvoteRatio() {
+        return upvote_ratio;
+    }
 }
