@@ -9,7 +9,7 @@ package com.redditapp.rest.client.response.components;
  *
  * @author derek
  */
-public class LinkListingChild extends ListingChild{
+public class LinkListingChild extends Thing{
     private Link data;
     
     public Link getLink() {
