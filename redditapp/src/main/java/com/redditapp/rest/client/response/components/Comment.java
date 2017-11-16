@@ -9,7 +9,7 @@ package com.redditapp.rest.client.response.components;
  *
  * @author derek
  */
-public class Comment {
+public class Comment extends Thing{
     private String subreddit_id;
     private Float approved_at_utc;
     private String banned_by;
