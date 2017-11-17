@@ -36,7 +36,6 @@ public class CommentListingResponseDeserializer implements JsonDeserializer<Comm
         JsonArray response = json.getAsJsonArray();
         JsonElement threadLinkListingWrapperJson = response.get(0);
         ThreadLinkListingWrapper threadLinkListingWrapper = gson.fromJson(threadLinkListingWrapperJson, ThreadLinkListingWrapper.class);
-        System.out.println(threadLinkListingWrapper.getThreadLinkListing().getChildren()[0].getThreadLink().getUpvoteRatio());
         JsonElement commentListingWrapperJson = response.get(1);
         JsonObject commentListingDataJson = commentListingWrapperJson.getAsJsonObject().getAsJsonObject("data");
         JsonArray commentListingChildren = commentListingDataJson.getAsJsonArray("children");
@@ -58,6 +57,7 @@ public class CommentListingResponseDeserializer implements JsonDeserializer<Comm
                             .getAsJsonObject("data")
                             .getAsJsonArray("children")));
                 }
+                commentListing.addComment(comment);
             }
             else if(thing.getKind().contentEquals("more")) {
                 More more = gson.fromJson(dataElement, More.class);
