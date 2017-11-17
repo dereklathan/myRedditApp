@@ -61,6 +61,7 @@ public class CommentListingResponseDeserializer implements JsonDeserializer<Comm
             }
             else if(thing.getKind().contentEquals("more")) {
                 More more = gson.fromJson(dataElement, More.class);
+                commentListing.setMore(more);
             }
         }
         return commentListing;
