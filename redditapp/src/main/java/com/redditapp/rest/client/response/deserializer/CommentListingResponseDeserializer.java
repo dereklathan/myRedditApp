@@ -52,7 +52,6 @@ public class CommentListingResponseDeserializer implements JsonDeserializer<Comm
             JsonElement dataElement = element.getAsJsonObject().get("data");
             if(thing.getKind().contentEquals("t1")) {
                 Comment comment = gson.fromJson(dataElement, Comment.class);
-                System.out.println(comment.getBody());
                 if(!dataElement.getAsJsonObject().get("replies").isJsonNull()) {
                     comment.setretReplies(deserializeCommentListing(dataElement.getAsJsonObject()
                             .getAsJsonObject("replies")
