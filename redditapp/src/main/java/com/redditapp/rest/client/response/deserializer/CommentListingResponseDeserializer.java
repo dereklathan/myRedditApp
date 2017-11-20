@@ -6,6 +6,7 @@
 package com.redditapp.rest.client.response.deserializer;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -29,7 +30,9 @@ public class CommentListingResponseDeserializer implements JsonDeserializer<Comm
     
     @Override
     public CommentListingResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(CommentListing.class, new CommentListingDeserializer())
+                .create();
         //Reddit gives an empty string if no replies
         String rawJson = json.toString().replace("\"replies\":\"\"", "\"replies\": null");
         json = new JsonParser().parse(rawJson);
@@ -38,35 +41,9 @@ public class CommentListingResponseDeserializer implements JsonDeserializer<Comm
         ThreadLinkListingWrapper threadLinkListingWrapper = gson.fromJson(threadLinkListingWrapperJson, ThreadLinkListingWrapper.class);
         JsonElement commentListingWrapperJson = response.get(1);
         JsonObject commentListingDataJson = commentListingWrapperJson.getAsJsonObject().getAsJsonObject("data");
-        JsonArray commentListingChildren = commentListingDataJson.getAsJsonArray("children");
-        CommentListing commentListing = deserializeCommentListing(commentListingChildren);
+        JsonElement commentListingChildren = commentListingDataJson.getAsJsonArray("children");        
+        CommentListing commentListing = gson.fromJson(commentListingChildren, CommentListing.class);
         return new CommentListingResponse(threadLinkListingWrapper.getThreadLinkListing().getChildren()[0].getThreadLink(), commentListing);
     }
-    
-    private CommentListing deserializeCommentListing(JsonArray jsonArray) {
-        Gson gson = new Gson();
-        CommentListing commentListing = new CommentListing();
-        for(JsonElement element : jsonArray) {
-            Thing thing = gson.fromJson(element, Thing.class);
-            JsonElement dataElement = element.getAsJsonObject().get("data");
-            if(thing.getKind().contentEquals("t1")) {
-                Comment comment = gson.fromJson(dataElement, Comment.class);
-                if(!dataElement.getAsJsonObject().get("replies").isJsonNull()) {
-                    comment.setretReplies(deserializeCommentListing(dataElement.getAsJsonObject()
-                            .getAsJsonObject("replies")
-                            .getAsJsonObject("data")
-                            .getAsJsonArray("children")));
-                }
-                commentListing.addComment(comment);
-            }
-            else if(thing.getKind().contentEquals("more")) {
-                More more = gson.fromJson(dataElement, More.class);
-                commentListing.setMore(more);
-            }
-        }
-        return commentListing;
-    }
-    
-    
     
 }
