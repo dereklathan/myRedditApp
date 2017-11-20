@@ -65,6 +65,7 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
             
         }
         res.close();
+        client.close();
         return response;
     }
     
@@ -101,6 +102,7 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
             response = "received invalid response " + Integer.toString(res.getStatus());
         }
         res.close();
+        client.close();
         return response;
     }
     
