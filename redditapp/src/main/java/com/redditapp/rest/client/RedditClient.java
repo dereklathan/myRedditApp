@@ -13,7 +13,9 @@ import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.entity.TokenInfo;
 import com.redditapp.properties.Properties;
 import com.redditapp.rest.client.response.CommentListingResponse;
+import com.redditapp.rest.client.response.MoreCommentsResponse;
 import com.redditapp.rest.client.response.deserializer.CommentListingResponseDeserializer;
+import com.redditapp.rest.client.response.deserializer.MoreCommentsResponseDeserializer;
 import java.time.LocalDateTime;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,9 +43,10 @@ public class RedditClient {
     @Inject private Properties properties;
     
     protected void initClient(RedditUserClientInfo redditUserClientInfo) {
-        GsonBuilder gsonBuilder = new GsonBuilder(); 
-        gsonBuilder.registerTypeAdapter(CommentListingResponse.class, new CommentListingResponseDeserializer());
-        gson = gsonBuilder.create();
+        gson = new GsonBuilder() 
+            .registerTypeAdapter(CommentListingResponse.class, new CommentListingResponseDeserializer())
+            .registerTypeAdapter(MoreCommentsResponse.class, new MoreCommentsResponseDeserializer())
+            .create();
         url = properties.getRedditClientProperties().getApiUrl();
         retries = properties.getRedditClientProperties().getRetries();
         tokenInfo = redditUserClientInfo.getTokenInfo();
