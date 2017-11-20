@@ -5,6 +5,8 @@
  */
 package com.redditapp.rest.client.response.components;
 
+import java.util.List;
+
 /**
  *
  * @author derek
@@ -15,7 +17,7 @@ public class More extends Thing{
     private String id;
     private String parent_id;
     private Integer depth;
-    private String[] children;
+    private List<String> children;
     
     public Integer getCount() {
         return count;
@@ -37,7 +39,7 @@ public class More extends Thing{
         return depth;
     }
     
-    public String[] getChildren() {
+    public List<String> getChildren() {
         return children;
     }
 }
