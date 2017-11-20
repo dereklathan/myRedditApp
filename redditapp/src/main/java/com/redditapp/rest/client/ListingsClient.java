@@ -9,7 +9,9 @@ import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.rest.client.response.CommentListingResponse;
 import com.redditapp.rest.client.response.LinkListingResponse;
 import com.redditapp.rest.client.response.SubredditListingResponse;
+import com.redditapp.rest.client.response.MoreCommentsResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 
@@ -21,6 +23,7 @@ public class ListingsClient {
     @Inject GetClient<SubredditListingResponse> subredditListingClient;
     @Inject GetClient<LinkListingResponse> linkListingClient;
     @Inject GetClient<CommentListingResponse> commentListingClient;
+    @Inject GetClient<MoreCommentsResponse> moreCommentsListingClient;
     
     public SubredditListingResponse getPopularSubreddits(RedditUserClientInfo redditUserClientInfo) {
         return subredditListingClient.doGet(redditUserClientInfo, "/subreddits/popular", SubredditListingResponse.class);
@@ -46,12 +49,19 @@ public class ListingsClient {
         return commentListingClient.doGet(redditUserClientInfo, path, CommentListingResponse.class);
     }
     
-    public String getMoreComments(RedditUserClientInfo redditUserClientInfo, String linkId, String childIds) {
-        Map<String, String> queryParams = new HashMap();
-        queryParams.put("link", linkId);
-        StringBuilder keyListBuilder = new StringBuilder();
-        queryParams.put("children", childIds);
-        return commentListingClient.doGet(redditUserClientInfo, "/api/morechildren", queryParams);
+    public MoreCommentsResponse getMoreComments(RedditUserClientInfo redditUserClientInfo, String linkId, List<String> childIds) {
+         Map<String,String> queryParams = new HashMap();
+        StringBuilder childListBuilder = new StringBuilder();
+        for(String c : childIds) {
+            childListBuilder
+                    .append(c)
+                    .append(",");
+        }
+        childListBuilder.deleteCharAt(childListBuilder.length()-1);
+        queryParams.put("api_type", "json");
+        queryParams.put("link_id", linkId);
+        queryParams.put("children", childListBuilder.toString());
+        return moreCommentsListingClient.doGet(redditUserClientInfo, "/api/morechildren", MoreCommentsResponse.class, queryParams);       
     }
     
     //this method is for testing
