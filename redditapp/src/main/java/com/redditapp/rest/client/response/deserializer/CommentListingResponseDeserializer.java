@@ -15,10 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.redditapp.rest.client.response.CommentListingResponse;
-import com.redditapp.rest.client.response.components.Comment;
 import com.redditapp.rest.client.response.components.CommentListing;
-import com.redditapp.rest.client.response.components.More;
-import com.redditapp.rest.client.response.components.Thing;
 import com.redditapp.rest.client.response.components.ThreadLinkListingWrapper;
 import java.lang.reflect.Type;
 
