@@ -20,10 +20,11 @@ public class RedditUserResponse extends BaseResponse {
         redditUsers = new ArrayList<>();
     }
     
-    public void addRedditUser(int id, String username) {
+    public void addRedditUser(int id, String username, boolean canDelete) {
         RedditUser redditUser = new RedditUser();
         redditUser.setId(id);
         redditUser.setUsername(username);
+        redditUser.setCanDelete(canDelete);
         redditUsers.add(redditUser);
     }
 }
