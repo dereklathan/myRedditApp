@@ -18,6 +18,23 @@ import org.hibernate.query.Query;
 @Named
 public class UserDao extends BaseDao<User> {
     
+    public User getUserById(int userId) {
+        User user = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query query = session.getNamedQuery("User.findById");
+            query.setParameter("id", userId);
+            try {
+                user = (User)query.getSingleResult();
+            }
+            catch(NoResultException ex) {
+                // user = null
+            }
+            session.getTransaction().commit();
+        }
+        return user;
+    }
+    
     public User getUserByUsername(String username) {
         User user = null;
         try (Session session = sessionFactory.getCurrentSession()) {
