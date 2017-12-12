@@ -6,10 +6,11 @@
 package com.redditapp.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -52,6 +53,9 @@ public class RedditUser extends BaseEntity implements Serializable {
     @Size(min = 1, max = 128)
     @Column(name = "password")
     private String password;
+    @JoinColumn(name = "added_by", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User addedBy;
 
 
     public RedditUser() {
@@ -83,6 +87,14 @@ public class RedditUser extends BaseEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public User getAddedBy() {
+        return addedBy;
+    }
+    
+    public void setAddedBy(User addedBy) {
+        this.addedBy = addedBy;
     }
 
     @Override
