@@ -6,9 +6,9 @@
 package org.netbeans.rest.application.config;
 
 import com.redditapp.rest.resource.Authorizor;
+import com.redditapp.rest.resource.Clients;
 import com.redditapp.rest.resource.Login;
 import com.redditapp.rest.resource.RedditUsers;
-import com.redditapp.rest.resource.Resource;
 import com.redditapp.rest.resource.TestComment;
 import com.redditapp.rest.resource.TestListings;
 import com.redditapp.rest.resource.TestUser;
@@ -29,6 +29,7 @@ public class ApplicationConfig extends Application {
         resources.add(Authorizor.class);
         resources.add(Login.class);
         resources.add(RedditUsers.class);
+        resources.add(Clients.class);
         return resources;
     }
 
