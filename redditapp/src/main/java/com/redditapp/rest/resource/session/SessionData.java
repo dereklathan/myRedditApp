@@ -14,12 +14,15 @@ import org.apache.commons.lang3.RandomStringUtils;
  * @author derek
  */
 public class SessionData {
-    private String user;
+    private final String user;
+    private final int userId;
     private final String accessToken;
     private LocalDateTime lastAccessed;
     
-    public SessionData(String user) {
+    public SessionData(String user, int userId) {
         lastAccessed = LocalDateTime.now();
+        this.user = user;
+        this.userId = userId;
         String rand = RandomStringUtils.random(16);
         String token = user+rand;
         accessToken = Base64.getEncoder().encodeToString(token.getBytes());
@@ -27,6 +30,10 @@ public class SessionData {
     
     public String getUser() {
         return user;
+    }
+    
+    public int getUserId() {
+        return userId;
     }
     
     public LocalDateTime getLastAccessed() {
