@@ -9,8 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -51,6 +49,9 @@ public class ClientInfo extends BaseEntity implements Serializable {
     @Size(max = 16)
     @Column(name = "state_val", insertable = false)
     private String state_val;
+    @Size(max = 32)
+    @Column(name = "name")
+    private String name;
 
 
     public ClientInfo() {
@@ -86,6 +87,14 @@ public class ClientInfo extends BaseEntity implements Serializable {
     
     public String getState() {
         return state_val;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
