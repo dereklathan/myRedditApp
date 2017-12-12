@@ -47,7 +47,7 @@ public class Login extends Resource {
             String salt = user.getSalt();
             String pass = loginRequest.getPassword();
             if(getSHA512SecurePassword(pass,salt).contentEquals(hashPass)) {
-                SessionData session = new SessionData(loginRequest.getUsername());
+                SessionData session = new SessionData(user.getUsername(), user.getId());
                 String token = sessionPool.addSession(session);
                 LoginResponse response = new LoginResponse();
                 response.setAccessToken(token);
@@ -64,7 +64,7 @@ public class Login extends Resource {
     @AuthFilter
     @Produces({MediaType.TEXT_PLAIN})
     @Path("validate")
-    public Response validate(@Context HttpHeaders headers) {
+    public Response validate() {
         Gson gson = new Gson();
         ValidateResponse response = new ValidateResponse();
         String responseJson = gson.toJson(response, ValidateResponse.class);
