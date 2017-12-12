@@ -12,6 +12,7 @@ package com.redditapp.rest.resource.response.components;
 public class RedditUser {
     private int id;
     private String username;
+    private boolean canDelete;
     
     public void setId(int id) {
         this.id = id;      
@@ -27,5 +28,9 @@ public class RedditUser {
     
     public String getUsername() {
         return username;
+    }
+    
+    public void setCanDelete(boolean canDelete) {
+        this.canDelete = canDelete;
     }
 }
