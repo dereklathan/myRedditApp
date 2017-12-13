@@ -52,14 +52,21 @@ public class TokenInfo extends BaseEntity implements Serializable {
     @Size(min = 1, max = 16)
     @Column(name = "token_type")
     private String tokenType;
-    @Size(max = 64)
-    @Column(name = "refresh_token")
-    private String refreshToken;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
     @Column(name = "scope")
     private String scope;
+    @Basic(optional = false)
+    @NotNull
+    @Size(max=256)
+    @Column(name = "refresh")
+    private String refresh;
+    @Basic(optional = false)
+    @NotNull
+    @Size(max=16)
+    @Column(name = "salt")
+    private String salt;
 
     @Basic(optional = false)
     @NotNull
@@ -101,14 +108,22 @@ public class TokenInfo extends BaseEntity implements Serializable {
         this.tokenType = tokenType;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public void setRefresh(String refreshToken) {
+        this.refresh = refreshToken;
     }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    
+    public String getRefresh() {
+        return refresh;
     }
-
+    
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+    
+    public String getSalt() {
+        return salt;
+    }
+    
     public String getScope() {
         return scope;
     }
