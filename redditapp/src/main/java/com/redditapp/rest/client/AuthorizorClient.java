@@ -45,24 +45,27 @@ public class AuthorizorClient {
     }
 
     public AccessTokenResponse refreshToken(RedditUserClientInfo redditUserClientInfo) {
-        if(redditUserClientInfo.getTokenInfo() != null) {
-            String refreshToken = redditUserClientInfo.getTokenInfo().getRefreshToken();
-            if(refreshToken != null) {
+        if (redditUserClientInfo.getTokenInfo() != null) {
+            String refresh = redditUserClientInfo.getTokenInfo().getRefresh();
+            String salt = redditUserClientInfo.getTokenInfo().getSalt();
+            if (refresh != null) {
+                EncryptedPassword pass = new EncryptedPassword(refresh, salt);
+                String refreshToken = this.aesUtil.decrypt(pass);
                 LocalDateTime expiration = redditUserClientInfo.getTokenInfo().getExpiration();
-                if(LocalDateTime.now().isAfter(expiration)) {
+                if (LocalDateTime.now().isAfter(expiration)) {
                     Form form = new Form();
                     form.param("grant_type", "refresh_token");
                     form.param("refresh_token", refreshToken);
                     return postTokenForm(redditUserClientInfo, form);
-                }
-                else 
+                } else {
                     return new AccessTokenResponse("Your token is not expired");
-            }
-            else
+                }
+            } else {
                 return new AccessTokenResponse("You do not have a refresh token.");
-        }
-        else
+            }
+        } else {
             return new AccessTokenResponse("You never obtained an access token.");
+        }
     }
     
     private AccessTokenResponse postTokenForm(RedditUserClientInfo redditUserClientInfo, Form form) {
