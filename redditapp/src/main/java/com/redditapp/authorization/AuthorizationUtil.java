@@ -5,6 +5,8 @@
  */
 package com.redditapp.authorization;
 
+import com.redditapp.crypt.AES256Util;
+import com.redditapp.crypt.EncryptedPassword;
 import com.redditapp.dao.RedditUserClientInfoDao;
 import com.redditapp.dao.TokenInfoDao;
 import com.redditapp.entity.RedditUserClientInfo;
@@ -24,15 +26,19 @@ public class AuthorizationUtil {
    @Inject AuthorizorClient authorizorClient;
    @Inject RedditUserClientInfoDao redditUserClientInfoDao;
    @Inject TokenInfoDao tokenInfoDao;
+   @Inject AES256Util aesUtil;
    
    public boolean authorize(String code, String redirectUri, RedditUserClientInfo redditUserClientInfo) {   
         AccessTokenResponse accessTokenResponse = authorizorClient.retrieveToken(code, redirectUri, redditUserClientInfo);
         if(accessTokenResponse.getError() == null || accessTokenResponse.getError().isEmpty()) {
             TokenInfo tokenInfo = new TokenInfo();
+            EncryptedPassword pass;
             LocalDateTime expirationDate = LocalDateTime.now().plusSeconds(new Long(accessTokenResponse.getExpiration()));
             tokenInfo.setExpiration(expirationDate);
             tokenInfo.setAccessToken(accessTokenResponse.getAccessToken());
-            tokenInfo.setRefreshToken(accessTokenResponse.getRefreshToken());
+            pass = this.aesUtil.encrypt(accessTokenResponse.getRefreshToken());
+            tokenInfo.setRefresh(pass.getPassword());
+            tokenInfo.setSalt(pass.getSalt());
             tokenInfo.setTokenType(accessTokenResponse.getTokenType());
             tokenInfo.setScope(accessTokenResponse.getScope());
             tokenInfo.setRemainingRequests(60);
