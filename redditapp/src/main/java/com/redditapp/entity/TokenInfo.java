@@ -32,7 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "TokenInfo.findById", query = "SELECT t FROM TokenInfo t WHERE t.id = :id")
     , @NamedQuery(name = "TokenInfo.findByAccessToken", query = "SELECT t FROM TokenInfo t WHERE t.accessToken = :accessToken")
     , @NamedQuery(name = "TokenInfo.findByTokenType", query = "SELECT t FROM TokenInfo t WHERE t.tokenType = :tokenType")
-    , @NamedQuery(name = "TokenInfo.findByRefreshToken", query = "SELECT t FROM TokenInfo t WHERE t.refreshToken = :refreshToken")
     , @NamedQuery(name = "TokenInfo.findByScope", query = "SELECT t FROM TokenInfo t WHERE t.scope = :scope")
     , @NamedQuery(name = "TokenInfo.findByCreated", query = "SELECT t FROM TokenInfo t WHERE t.created = :created")
     , @NamedQuery(name = "TokenInfo.findByUpdated", query = "SELECT t FROM TokenInfo t WHERE t.updated = :updated")
