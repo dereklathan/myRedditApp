@@ -93,6 +93,25 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
         return results;
     }
     
+    public RedditUserClientInfo getUnauthorizedByClientIdAddedBy(int clientId, int addedById) {
+        RedditUserClientInfo redditUserClientInfo = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query query = session
+                    .createQuery("from RedditUserClientInfo r where r.clientInfo.id = :clientId "
+                        + "and r.tokenInfo is null and r.redditUser.addedBy.id = :addedById")
+                    .setParameter("clientId", clientId)
+                    .setParameter("addedById", addedById);
+            try {
+                redditUserClientInfo = (RedditUserClientInfo)query.getSingleResult();
+            }
+            catch (NoResultException ex) {
+                // redditUserClientInfo = null
+            }
+        }
+        return redditUserClientInfo;
+    }
+    
     public List<RedditUserClientInfo> getUnauthorizedByRedditUserIdAddedBy(int redditUserId, int addedById) {
         List<RedditUserClientInfo> results;
         try (Session session = sessionFactory.getCurrentSession()) {
