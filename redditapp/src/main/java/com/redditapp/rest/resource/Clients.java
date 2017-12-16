@@ -96,6 +96,7 @@ public class Clients extends Resource {
         clientInfoResponse.setClientName(clientInfo.getName());
         clientInfoResponse.setClientId(clientInfo.getClientId());
         clientInfoResponse.setCanDelete(redditUserClientInfo.getTokenInfo() == null);
+        clientInfoResponse.setRedditUserId(redditUserClientInfo.getRedditUser().getId());
         String redirectUrl;
         String authUrl;
         if (redditUserClientInfo.getTokenInfo() == null) {
