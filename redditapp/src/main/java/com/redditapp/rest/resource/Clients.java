@@ -73,6 +73,7 @@ public class Clients extends Resource {
             clients.add(client);
         }
         response.setClients(clients);
+        response.setRedditUserName(redditUser.getUsername());
         String responseJson = gson.toJson(response, ClientsResponse.class);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
@@ -94,6 +95,7 @@ public class Clients extends Resource {
         clientInfoResponse.setId(clientInfo.getId());
         clientInfoResponse.setClientName(clientInfo.getName());
         clientInfoResponse.setClientId(clientInfo.getClientId());
+        clientInfoResponse.setCanDelete(redditUserClientInfo.getTokenInfo() == null);
         String redirectUrl;
         String authUrl;
         if (redditUserClientInfo.getTokenInfo() == null) {
@@ -125,8 +127,9 @@ public class Clients extends Resource {
         Gson gson = new Gson();
         AddClientRequest addClientRequest = gson.fromJson(request, AddClientRequest.class);
         String responseJson;
+        System.out.println(addClientRequest.getClientId());
         com.redditapp.entity.ClientInfo clientInfo = this.clientInfoDao.getClientInfoByClientId(addClientRequest.getClientId());
-        BaseResponse response = new BaseResponse();
+        ClientsResponse response = new ClientsResponse();
         if(clientInfo == null) {
             int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
             RedditUser redditUser = this.redditUserDao.getRedditUserByIdAndAddedById(addClientRequest.getRedditUserId(), userId);
@@ -149,11 +152,37 @@ public class Clients extends Resource {
             redditUserClientInfo.setClientInfo(clientInfo);
             redditUserClientInfo.setRedditUser(redditUser);
             this.redditUserClientInfoDao.saveOrUpdate(redditUserClientInfo);
+            ClientInfo clientInfoResponse = new ClientInfo();
+            clientInfoResponse.setClientName(clientInfo.getName());
+            clientInfoResponse.setId(clientInfo.getId());
+            clientInfoResponse.setCanDelete(true);
+            response.addClient(clientInfoResponse);
         }
         else {
             response.setError("Client with ID already exists.");
         }
-        responseJson = gson.toJson(response, BaseResponse.class);
+        responseJson = gson.toJson(response, ClientsResponse.class);
+        return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
+    }
+    
+    @GET
+    @Path("deleteclient")
+    @AuthFilter
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response deleteClient(@Context HttpHeaders headers, @QueryParam("id") int clientId) {
+        BaseResponse response = new BaseResponse();
+        Gson gson = new Gson();
+        int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
+        RedditUserClientInfo redditUserClientInfo = this.redditUserClientInfoDao.getUnauthorizedByClientIdAddedBy(clientId, userId);
+        if(redditUserClientInfo != null) {
+            this.redditUserClientInfoDao.delete(redditUserClientInfo);
+            this.clientInfoDao.delete(redditUserClientInfo.getClientInfo());
+            
+        }
+        else {
+            response.setError("You do not have permission to remove that.");
+        }
+        String responseJson = gson.toJson(response, BaseResponse.class);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
 
