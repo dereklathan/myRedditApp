@@ -128,8 +128,8 @@ public class RedditUsers extends Resource {
             }
         }
         for(RedditUserClientInfo r : redditUserClientInfos) {
-            this.clientInfoDao.delete(r.getClientInfo());
             this.redditUserClientInfoDao.delete(r);
+            this.clientInfoDao.delete(r.getClientInfo());
         }
         this.redditUserDao.delete(redditUser);
         responseJson = gson.toJson(response, BaseResponse.class);
