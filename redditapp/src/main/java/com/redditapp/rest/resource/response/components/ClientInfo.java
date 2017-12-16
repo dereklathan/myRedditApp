@@ -16,6 +16,7 @@ public class ClientInfo {
     private String clientId;
     private String clientName;
     private boolean canDelete;
+    private int redditUserId;
     
     public void setId(int id) {
         this.id = id;
@@ -39,5 +40,9 @@ public class ClientInfo {
     
     public void setCanDelete(boolean canDelete) {
         this.canDelete = canDelete;
+    }
+    
+    public void setRedditUserId(int redditUserId) {
+        this.redditUserId = redditUserId;
     }
 }
