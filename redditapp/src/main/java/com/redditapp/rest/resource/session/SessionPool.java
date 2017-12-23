@@ -46,4 +46,8 @@ public class SessionPool {
     public Map<String,SessionData> getAllSessions() {
         return sessions;
     }
+    
+    public void removeSession(String key) {
+        sessions.remove(sessions.get(key).getAccessToken());
+    }
 }
