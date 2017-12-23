@@ -9,8 +9,10 @@ import com.redditapp.hibernate.HibernateUtil;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 /**
  *
  * @author derek
@@ -44,5 +46,23 @@ public class BaseDao<T extends BaseEntity> {
             session.delete(entity);
             session.getTransaction().commit();
         }
+    }
+    
+    public T getById(int id, Class<T> cls) {
+        T entity = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query query = session
+                    .createQuery("from " + cls.getSimpleName() + " t where t.id = :id", cls)
+                    .setParameter("id", id);
+            try {
+                entity = (T)query.getSingleResult();
+            }
+            catch(NoResultException ex) {
+                //entity = null;
+            }
+            session.getTransaction().commit();
+        }
+        return entity;
     }
 }
