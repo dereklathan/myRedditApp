@@ -10,6 +10,7 @@ import com.redditapp.dao.UserDao;
 import com.redditapp.entity.User;
 import com.redditapp.rest.resource.filter.AuthFilter;
 import com.redditapp.rest.resource.request.LoginRequest;
+import com.redditapp.rest.resource.response.BaseResponse;
 import com.redditapp.rest.resource.response.LoginResponse;
 import com.redditapp.rest.resource.response.ValidateResponse;
 import com.redditapp.rest.resource.session.SessionData;
@@ -58,6 +59,16 @@ public class Login extends Resource {
         return Response.serverError().status(403).header("Access-Control-Allow-Origin", "*").build();
     }
     
+    @GET
+    @AuthFilter
+    @Path("logout")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response logout(@Context HttpHeaders headers) {
+        BaseResponse response = new BaseResponse();
+        String responseJson = new Gson().toJson(response, BaseResponse.class);
+        this.sessionPool.removeSession(headers.getHeaderString("access-token"));
+        return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
+    }
 
 
     @GET
