@@ -20,10 +20,10 @@ import javax.inject.Inject;
  * @author derek
  */
 public class ListingsClient {
-    @Inject GetClient<SubredditListingResponse> subredditListingClient;
-    @Inject GetClient<LinkListingResponse> linkListingClient;
-    @Inject GetClient<CommentListingResponse> commentListingClient;
-    @Inject GetClient<MoreCommentsResponse> moreCommentsListingClient;
+    @Inject private GetClient<SubredditListingResponse> subredditListingClient;
+    @Inject private GetClient<LinkListingResponse> linkListingClient;
+    @Inject private GetClient<CommentListingResponse> commentListingClient;
+    @Inject private GetClient<MoreCommentsResponse> moreCommentsListingClient;
     
     public SubredditListingResponse getPopularSubreddits(RedditUserClientInfo redditUserClientInfo) {
         return subredditListingClient.doGet(redditUserClientInfo, "/subreddits/popular", SubredditListingResponse.class);
