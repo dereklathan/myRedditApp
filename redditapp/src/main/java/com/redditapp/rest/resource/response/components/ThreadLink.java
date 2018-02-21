@@ -10,9 +10,29 @@ package com.redditapp.rest.resource.response.components;
  * @author derek
  */
 public class ThreadLink {
-    private String name;
+    private String title;
+    private String thingId;
+    private String url;
+    private String selfText;
+    private String author;
     
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    public void setThingId(String thingId) {
+        this.thingId = thingId;
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    public void setSelfText(String selfText) {
+        this.selfText = selfText;
+    }
+    
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
