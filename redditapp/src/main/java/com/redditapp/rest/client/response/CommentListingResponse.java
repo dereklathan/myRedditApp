@@ -17,6 +17,11 @@ public class CommentListingResponse extends RedditResponse {
     private final ThreadLink threadLink;
     private final CommentListing commentListing;
     
+    public CommentListingResponse() {
+        this.threadLink = null;
+        this.commentListing = null;
+    }
+    
     public CommentListingResponse(ThreadLink threadLink, CommentListing commentListing) {
         this.threadLink = threadLink;
         this.commentListing = commentListing;
