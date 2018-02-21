@@ -7,7 +7,6 @@ package com.redditapp.dao;
 
 import javax.inject.Named;
 import com.redditapp.entity.RedditUser;
-import com.redditapp.entity.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -66,7 +65,7 @@ public class RedditUserDao extends BaseDao<RedditUser> {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
             Query query = session
-                    .createQuery("from RedditUser r where r.addedBy.id = :addedBy", RedditUser.class)
+                    .createQuery("from RedditUser r where r.addedBy.id = :addedBy order by r.username", RedditUser.class)
                     .setParameter("addedBy", addedById);
             results = query.list();
             session.getTransaction().commit();
