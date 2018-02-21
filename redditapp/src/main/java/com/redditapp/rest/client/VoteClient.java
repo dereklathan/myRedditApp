@@ -15,7 +15,7 @@ import javax.ws.rs.core.Form;
  * @author derek
  */
 public class VoteClient {
-    @Inject PostClient<VoteResponse> voteClient;
+    @Inject private PostClient<VoteResponse> voteClient;
     
     public VoteResponse voteUp(RedditUserClientInfo redditUserClientInfo, String thingId) {
         Form form = new Form();
@@ -32,7 +32,7 @@ public class VoteClient {
     }
     
     public VoteResponse unvote(RedditUserClientInfo redditUserClientInfo, String thingId) {
-        Form form = new Form ();
+        Form form = new Form();
         form.param("id", thingId);
         form.param("dir", "0");
         return voteClient.doPost(redditUserClientInfo, "/api/vote", form, VoteResponse.class);
