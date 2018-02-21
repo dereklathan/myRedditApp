@@ -16,7 +16,6 @@ import com.redditapp.entity.RedditUser;
 import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.rest.resource.filter.AuthFilter;
 import com.redditapp.rest.resource.request.AddClientRequest;
-import com.redditapp.rest.resource.request.ClientsRequest;
 import com.redditapp.rest.resource.response.BaseResponse;
 import com.redditapp.rest.resource.response.ClientDetailResponse;
 import com.redditapp.rest.resource.response.ClientsResponse;
@@ -42,12 +41,12 @@ import javax.ws.rs.core.Response;
 
 @Path("clients")
 public class Clients extends Resource {
-    @Inject ClientInfoDao clientInfoDao;
-    @Inject RedditUserClientInfoDao redditUserClientInfoDao;
-    @Inject RedditUserDao redditUserDao;
-    @Inject UserDao userDao;
-    @Inject SessionPool sessionPool;
-    @Inject AES256Util aesUtil;
+    @Inject private ClientInfoDao clientInfoDao;
+    @Inject private RedditUserClientInfoDao redditUserClientInfoDao;
+    @Inject private RedditUserDao redditUserDao;
+    @Inject private UserDao userDao;
+    @Inject private SessionPool sessionPool;
+    @Inject private AES256Util aesUtil;
     
     @GET
     @Path("getclients")
