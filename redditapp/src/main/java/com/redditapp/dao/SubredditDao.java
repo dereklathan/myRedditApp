@@ -6,11 +6,31 @@
 package com.redditapp.dao;
 
 import com.redditapp.entity.Subreddit;
+import javax.persistence.NoResultException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 /**
  *
  * @author derek
  */
 public class SubredditDao extends BaseDao<Subreddit> {
+    
+    public Subreddit getByName(String name) {
+        Subreddit subreddit = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query query = session.getNamedQuery("Subreddit.findByName");
+            query.setParameter("name", name);
+            try {
+                subreddit = (Subreddit)query.getSingleResult();
+            }
+            catch(NoResultException ex) {
+                // subreddit = null
+            }
+            session.getTransaction().commit();
+        }
+        return subreddit;
+    }
     
 }
