@@ -20,7 +20,7 @@ import org.hibernate.query.Query;
  */
 @Named
 public class BaseDao<T extends BaseEntity> {
-    @Inject HibernateUtil hibernateUtil;
+    @Inject private HibernateUtil hibernateUtil;
     protected SessionFactory sessionFactory;
    
     public BaseDao() {
