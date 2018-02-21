@@ -19,7 +19,7 @@ import javax.ws.rs.core.Form;
 @Named
 public class CommentClient {
     
-    @Inject PostClient<CommentResponse> commentClient;
+    @Inject private PostClient<CommentResponse> commentClient;
     
     public CommentResponse postComment(RedditUserClientInfo redditUserClientInfo, String parent_id, String comment) {
         Form form = new Form();
