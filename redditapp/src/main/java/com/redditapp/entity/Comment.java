@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Comment.findByUpdated", query = "SELECT c FROM Comment c WHERE c.updated = :updated")
     , @NamedQuery(name = "Comment.findByBody", query = "SELECT c FROM Comment c WHERE c.body = :body")
     , @NamedQuery(name = "Comment.findByPostedBy", query = "SELECT c FROM Comment c WHERE c.postedBy = :postedBy")
-    , @NamedQuery(name = "Comment.findByPermalink", query = "SELECT c FROM Comment c WHERE c.permalink = :permalink")})
+    , @NamedQuery(name = "Comment.findByPermalink", query = "SELECT c FROM Comment c WHERE c.permalink = :permalink")
+    , @NamedQuery(name = "Comment.findByThingId", query = "SELECT c FROM Comment c WHERE c.thingId = :thingId")})
 public class Comment extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +56,11 @@ public class Comment extends BaseEntity implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "permalink")
     private String permalink;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 16)
+    @Column(name = "thing_id")
+    private String thingId;
     @OneToMany(mappedBy = "comment")
     private List<VoteComment> voteCommentList;
     @OneToMany(mappedBy = "parent")
@@ -92,6 +98,14 @@ public class Comment extends BaseEntity implements Serializable {
 
     public void setPermalink(String permalink) {
         this.permalink = permalink;
+    }
+    
+    public String getThingId() {
+        return thingId;
+    }
+    
+    public void setThingId(String thingId) {
+        this.thingId = thingId;
     }
 
     @XmlTransient
