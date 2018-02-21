@@ -23,10 +23,10 @@ import javax.inject.Named;
  */
 @Named
 public class AuthorizationUtil {
-   @Inject AuthorizorClient authorizorClient;
-   @Inject RedditUserClientInfoDao redditUserClientInfoDao;
-   @Inject TokenInfoDao tokenInfoDao;
-   @Inject AES256Util aesUtil;
+   @Inject private AuthorizorClient authorizorClient;
+   @Inject private RedditUserClientInfoDao redditUserClientInfoDao;
+   @Inject private TokenInfoDao tokenInfoDao;
+   @Inject private AES256Util aesUtil;
    
    public boolean authorize(String code, String redirectUri, RedditUserClientInfo redditUserClientInfo) {   
         AccessTokenResponse accessTokenResponse = authorizorClient.retrieveToken(code, redirectUri, redditUserClientInfo);
