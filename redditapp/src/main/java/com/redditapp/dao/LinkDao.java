@@ -6,11 +6,48 @@
 package com.redditapp.dao;
 
 import com.redditapp.entity.Link;
+import javax.persistence.NoResultException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 /**
  *
  * @author derek
  */
 public class LinkDao extends BaseDao<Link> {
+    
+    public Link getByPermalink(String permalink) {
+        Link link = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query query = session.getNamedQuery("Link.findByPermalink");
+            query.setParameter("permalink", permalink);
+            try {
+                link = (Link)query.getSingleResult();
+            }
+            catch(NoResultException ex) {
+                // link = null
+            }
+            session.getTransaction().commit();
+        }
+        return link;
+    }
+    
+    public Link getByThingId(String thingId) {
+        Link link = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            Query query = session.getNamedQuery("Link.findByThingId");
+            query.setParameter("thingId", thingId);
+            try {
+                link = (Link)query.getSingleResult();
+            }
+            catch(NoResultException ex) {
+                // link = null;
+            }
+            session.getTransaction().commit();
+        }
+        return link;
+    }
     
 }
