@@ -5,6 +5,7 @@
  */
 package com.redditapp.rest.client;
 
+import com.google.gson.JsonSyntaxException;
 import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.rest.client.response.RedditResponse;
 import java.util.Map;
@@ -51,7 +52,21 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
         if(res.getStatus() == 200) {
             updateToken(res);
             String json = res.readEntity(String.class);
-            response = gson.fromJson(json, responseClass);
+            try {
+                response = gson.fromJson(json, responseClass);
+            }
+            catch(JsonSyntaxException ex) {
+                try {
+                    response = responseClass.newInstance();
+                    response.setError("There was an error handling that request");
+                    ex.printStackTrace();
+                }
+                catch(InstantiationException | IllegalAccessException e) {                
+                    throw new RuntimeException(e.getCause().getMessage());
+                }
+                
+                
+            }
         }
         else {
             
