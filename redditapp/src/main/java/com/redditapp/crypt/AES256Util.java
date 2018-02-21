@@ -24,7 +24,7 @@ import javax.inject.Named;
  */
 @Named
 public class AES256Util {
-    @Inject Properties properties;
+    @Inject private Properties properties;
     private String key;
         
     public AES256Util() {
