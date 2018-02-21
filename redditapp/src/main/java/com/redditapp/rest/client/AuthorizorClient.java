@@ -33,8 +33,8 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 @Named
 public class AuthorizorClient {
     
-    @Inject AES256Util aesUtil;
-    @Inject Properties properties;
+    @Inject private AES256Util aesUtil;
+    @Inject private Properties properties;
     
     public AccessTokenResponse retrieveToken(String code, String redirectURI, RedditUserClientInfo redditUserClientInfo) {
         Form form = new Form();
