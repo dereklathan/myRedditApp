@@ -20,8 +20,8 @@ import javax.inject.Inject;
 @Named
 @ApplicationScoped
 public class AccountClient {
-    @Inject GetClient<MeResponse> meClient;
-    @Inject GetClient<MeKarmaResponse> meKarmaClient;
+    @Inject private GetClient<MeResponse> meClient;
+    @Inject private GetClient<MeKarmaResponse> meKarmaClient;
 
     
     public MeResponse getMe(RedditUserClientInfo redditUserClientInfo) {
