@@ -11,13 +11,18 @@ package com.redditapp.rest.resource.response.components;
  */
 public class Comment {
     private String body;
-    private String name;
+    private String author;
+    private String thingId;
     
     public void setBody(String body) {
         this.body = body;
     }
     
-    public void setName(String name) {
-        this.name = name;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    
+    public void setThingId(String thingId) {
+        this.thingId = thingId;
     }
 }
