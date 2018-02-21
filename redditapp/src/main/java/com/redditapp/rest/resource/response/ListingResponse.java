@@ -7,8 +7,6 @@ package com.redditapp.rest.resource.response;
 
 import com.redditapp.rest.resource.response.components.Comment;
 import com.redditapp.rest.resource.response.components.ThreadLink;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -18,13 +16,13 @@ public class ListingResponse extends BaseResponse {
     private boolean isComment;
     private Comment comment;
     private ThreadLink threadLink;
-    private final List<Integer> canUp;
-    private final List<Integer> canDown;
+    private int score;
+    private int scoreLimit;
     
     public ListingResponse() {
        this.isComment = false;
-       this.canUp = new ArrayList();
-       this.canDown = new ArrayList();
+       this.threadLink = new ThreadLink();
+       this.comment = new Comment();
     }
     
     public void setIsComment(boolean isComment) {
@@ -35,15 +33,19 @@ public class ListingResponse extends BaseResponse {
         this.threadLink = threadLink;
     }
     
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public ThreadLink getThreadLink() {
+        return this.threadLink;
     }
     
-    public void addCanUp(int redditUserId) {
-        this.canUp.add(redditUserId);
+    public Comment getComment() {
+        return this.comment;
     }
     
-    public void addCanDown(int redditUserId) {
-        this.canDown.add(redditUserId);
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
+    public void setScoreLimit(int scoreLimit) {
+        this.scoreLimit = scoreLimit;
     }
 }
