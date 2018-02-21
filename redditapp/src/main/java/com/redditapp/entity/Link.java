@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Link.findBySelftext", query = "SELECT l FROM Link l WHERE l.selftext = :selftext")
     , @NamedQuery(name = "Link.findByTitle", query = "SELECT l FROM Link l WHERE l.title = :title")
     , @NamedQuery(name = "Link.findByUrl", query = "SELECT l FROM Link l WHERE l.url = :url")
-    , @NamedQuery(name = "Link.findByPermalink", query = "SELECT l FROM Link l WHERE l.permalink = :permalink")})
+    , @NamedQuery(name = "Link.findByPermalink", query = "SELECT l FROM Link l WHERE l.permalink = :permalink")
+    , @NamedQuery(name = "Link.findByThingId", query = "SELECT l from Link l WHERE l.thingId = :thingId")})
 public class Link extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +67,11 @@ public class Link extends BaseEntity implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "permalink")
     private String permalink;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 16)
+    @Column(name = "thing_id")
+    private String thingId;
     @JoinColumn(name = "subreddit", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Subreddit subreddit;
@@ -115,6 +121,14 @@ public class Link extends BaseEntity implements Serializable {
 
     public void setPermalink(String permalink) {
         this.permalink = permalink;
+    }
+    
+    public String getThingId() {
+        return thingId;
+    }
+    
+    public void setThingId(String thingId) {
+        this.thingId = thingId;
     }
 
     public Subreddit getSubreddit() {
