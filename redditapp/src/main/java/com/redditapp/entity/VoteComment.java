@@ -6,6 +6,7 @@
 package com.redditapp.entity;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,12 +33,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class VoteComment extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "score")
     private Integer score;
+    @Basic(optional = false)
+    @NotNull
     @JoinColumn(name = "comment", referencedColumnName = "id")
     @ManyToOne
     private Comment comment;
+    @Basic(optional = false)
+    @NotNull
     @JoinColumn(name = "reddit_user", referencedColumnName = "id")
     @ManyToOne
     private RedditUser redditUser;
