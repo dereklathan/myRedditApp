@@ -10,7 +10,7 @@ package com.redditapp.rest.client.response.components;
  * @author derek
  */
 public class Features {
-    private SearchPublicTraffic search_public_traffic;
+    private boolean search_public_traffic;
     private GeopopularTwHoldout geopopular_tw_holdout;
     private boolean mweb_xpromo_modal_listing_click_daily_dismissible_ios;
     private GeopopularMobileHoldout geopopular_mobile_holdout;
@@ -71,7 +71,7 @@ public class Features {
     private boolean show_secret_santa;
     private boolean activity_service_read;
     
-    public SearchPublicTraffic getSearchPublicTraffic() {
+    public boolean getSearchPublicTraffic() {
         return search_public_traffic;
     }
     
