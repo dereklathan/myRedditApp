@@ -9,10 +9,7 @@ import com.redditapp.rest.resource.Authorizor;
 import com.redditapp.rest.resource.Clients;
 import com.redditapp.rest.resource.Login;
 import com.redditapp.rest.resource.RedditUsers;
-import com.redditapp.rest.resource.TestComment;
-import com.redditapp.rest.resource.TestListings;
-import com.redditapp.rest.resource.TestUser;
-import com.redditapp.rest.resource.TestVote;
+import com.redditapp.rest.resource.Vote;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
@@ -30,6 +27,7 @@ public class ApplicationConfig extends Application {
         resources.add(Login.class);
         resources.add(RedditUsers.class);
         resources.add(Clients.class);
+        resources.add(Vote.class);
         return resources;
     }
 
