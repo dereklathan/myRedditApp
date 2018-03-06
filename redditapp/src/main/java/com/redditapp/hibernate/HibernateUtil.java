@@ -22,7 +22,8 @@ import org.hibernate.service.ServiceRegistry;
  */
 
 /*
- * Whenever I hot deploy this creates another connection pool
+ * Whenever I hot deploy with c3p0 connection pool
+ * this creates another connection pool
  * until I eventually run out of DB connections. 
  * Bouncing the server everytime is annoying.
  */
