@@ -127,7 +127,6 @@ public class Clients extends Resource {
         Gson gson = new Gson();
         AddClientRequest addClientRequest = gson.fromJson(request, AddClientRequest.class);
         String responseJson;
-        System.out.println(addClientRequest.getClientId());
         com.redditapp.entity.ClientInfo clientInfo = this.clientInfoDao.getClientInfoByClientId(addClientRequest.getClientId());
         ClientsResponse response = new ClientsResponse();
         if(clientInfo == null) {
@@ -165,7 +164,7 @@ public class Clients extends Resource {
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
     
-    @GET
+    @POST
     @Path("deleteclient")
     @AuthFilter
     @Produces({MediaType.APPLICATION_JSON})
