@@ -106,7 +106,7 @@ public class RedditUsers extends Resource {
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
     
-    @GET
+    @POST
     @Path("deletereddituser")
     @AuthFilter
     @Produces({MediaType.APPLICATION_JSON})
