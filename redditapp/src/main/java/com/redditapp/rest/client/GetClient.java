@@ -53,7 +53,7 @@ public class GetClient<T extends RedditResponse> extends RedditClient {
             updateToken(res);
             String json = res.readEntity(String.class);
             try {
-                response = gson.fromJson(json, responseClass);
+                response = this.gsonUtil.getGson().fromJson(json, responseClass);
             }
             catch(JsonSyntaxException ex) {
                 try {

@@ -11,6 +11,7 @@ import com.redditapp.authorization.AuthorizationUtil;
 import com.redditapp.dao.TokenInfoDao;
 import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.entity.TokenInfo;
+import com.redditapp.gson.GsonUtil;
 import com.redditapp.properties.Properties;
 import com.redditapp.rest.client.response.CommentListingResponse;
 import com.redditapp.rest.client.response.CommentResponse;
@@ -39,17 +40,12 @@ public class RedditClient {
     protected String userAgent;
     protected JerseyClient client;
     protected int retries;
-    protected Gson gson;
+    @Inject protected GsonUtil gsonUtil;
     @Inject private TokenInfoDao tokenInfoDao;
     @Inject private AuthorizationUtil authorizationUtil;
     @Inject private Properties properties;
     
     protected void initClient(RedditUserClientInfo redditUserClientInfo) {
-        gson = new GsonBuilder() 
-            .registerTypeAdapter(CommentListingResponse.class, new CommentListingResponseDeserializer())
-            .registerTypeAdapter(MoreCommentsResponse.class, new MoreCommentsResponseDeserializer())
-            .registerTypeAdapter(CommentResponse.class, new CommentResponseDeserializer())
-            .create();
         url = properties.getRedditClientProperties().getApiUrl();
         retries = properties.getRedditClientProperties().getRetries();
         tokenInfo = redditUserClientInfo.getTokenInfo();

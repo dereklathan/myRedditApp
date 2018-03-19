@@ -5,9 +5,9 @@
  */
 package com.redditapp.rest.resource;
 
-import com.google.gson.Gson;
 import com.redditapp.dao.UserDao;
 import com.redditapp.entity.User;
+import com.redditapp.gson.GsonUtil;
 import com.redditapp.rest.resource.filter.AuthFilter;
 import com.redditapp.rest.resource.request.LoginRequest;
 import com.redditapp.rest.resource.response.BaseResponse;
@@ -35,13 +35,13 @@ import javax.ws.rs.core.Response;
 public class Login extends Resource {
     @Inject SessionPool sessionPool;
     @Inject UserDao userDao;
+    @Inject GsonUtil gsonUtil;
     
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Path("login")
     public Response login(String request) {
-        Gson gson = new Gson();
-        LoginRequest loginRequest = gson.fromJson(request, LoginRequest.class);
+        LoginRequest loginRequest = this.gsonUtil.getGson().fromJson(request, LoginRequest.class);
         User user = userDao.getUserByUsername(loginRequest.getUsername());
         if(user != null) {
             String hashPass = user.getPass();
@@ -52,7 +52,7 @@ public class Login extends Resource {
                 String token = sessionPool.addSession(session);
                 LoginResponse response = new LoginResponse();
                 response.setAccessToken(token);
-                String responseJson = gson.toJson(response, LoginResponse.class);
+                String responseJson = this.gsonUtil.getGson().toJson(response, LoginResponse.class);
                 return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
             }
         }  
@@ -65,7 +65,7 @@ public class Login extends Resource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response logout(@Context HttpHeaders headers) {
         BaseResponse response = new BaseResponse();
-        String responseJson = new Gson().toJson(response, BaseResponse.class);
+        String responseJson = this.gsonUtil.getGson().toJson(response, BaseResponse.class);
         this.sessionPool.removeSession(headers.getHeaderString("access-token"));
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
@@ -76,9 +76,8 @@ public class Login extends Resource {
     @Produces({MediaType.TEXT_PLAIN})
     @Path("validate")
     public Response validate() {
-        Gson gson = new Gson();
         ValidateResponse response = new ValidateResponse();
-        String responseJson = gson.toJson(response, ValidateResponse.class);
+        String responseJson = this.gsonUtil.getGson().toJson(response, ValidateResponse.class);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
     

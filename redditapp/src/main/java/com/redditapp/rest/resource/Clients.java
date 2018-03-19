@@ -5,7 +5,6 @@
  */
 package com.redditapp.rest.resource;
 
-import com.google.gson.Gson;
 import com.redditapp.crypt.AES256Util;
 import com.redditapp.crypt.EncryptedPassword;
 import com.redditapp.dao.ClientInfoDao;
@@ -14,6 +13,7 @@ import com.redditapp.dao.RedditUserDao;
 import com.redditapp.dao.UserDao;
 import com.redditapp.entity.RedditUser;
 import com.redditapp.entity.RedditUserClientInfo;
+import com.redditapp.gson.GsonUtil;
 import com.redditapp.rest.resource.filter.AuthFilter;
 import com.redditapp.rest.resource.request.AddClientRequest;
 import com.redditapp.rest.resource.response.BaseResponse;
@@ -41,6 +41,7 @@ import javax.ws.rs.core.Response;
 
 @Path("clients")
 public class Clients extends Resource {
+    @Inject private GsonUtil gsonUtil;
     @Inject private ClientInfoDao clientInfoDao;
     @Inject private RedditUserClientInfoDao redditUserClientInfoDao;
     @Inject private RedditUserDao redditUserDao;
@@ -53,7 +54,6 @@ public class Clients extends Resource {
     @AuthFilter
     @Produces({MediaType.APPLICATION_JSON})
     public Response getClients(@Context HttpHeaders headers, @QueryParam("id") int redditUserId) {
-        Gson gson = new Gson();
         int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
         RedditUser redditUser = this.redditUserDao.getRedditUserByIdAndAddedById(redditUserId, userId);
         if(redditUser == null) {
@@ -73,7 +73,7 @@ public class Clients extends Resource {
         }
         response.setClients(clients);
         response.setRedditUserName(redditUser.getUsername());
-        String responseJson = gson.toJson(response, ClientsResponse.class);
+        String responseJson = this.gsonUtil.getGson().toJson(response, ClientsResponse.class);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
     
@@ -82,7 +82,6 @@ public class Clients extends Resource {
     @AuthFilter
     @Produces({MediaType.APPLICATION_JSON})
     public Response getClientDetail(@Context HttpHeaders headers, @QueryParam("id") int clientId) {
-        Gson gson = new Gson();
         int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
         RedditUserClientInfo redditUserClientInfo = this.redditUserClientInfoDao.getRedditUserClientInfoAddedByIdAndClientInfoId(userId, clientId);
         if(redditUserClientInfo == null) {
@@ -115,7 +114,7 @@ public class Clients extends Resource {
         clientInfoResponse.setAuthUrl(authUrl);
         clientInfoResponse.setRedirectUrl(redirectUrl);
         response.setClient(clientInfoResponse);
-        String responseJson = gson.toJson(response, ClientDetailResponse.class);
+        String responseJson = this.gsonUtil.getGson().toJson(response, ClientDetailResponse.class);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
     
@@ -124,8 +123,7 @@ public class Clients extends Resource {
     @AuthFilter
     @Produces({MediaType.APPLICATION_JSON})
     public Response addClient(@Context HttpHeaders headers, String request) {
-        Gson gson = new Gson();
-        AddClientRequest addClientRequest = gson.fromJson(request, AddClientRequest.class);
+        AddClientRequest addClientRequest = this.gsonUtil.getGson().fromJson(request, AddClientRequest.class);
         String responseJson;
         com.redditapp.entity.ClientInfo clientInfo = this.clientInfoDao.getClientInfoByClientId(addClientRequest.getClientId());
         ClientsResponse response = new ClientsResponse();
@@ -137,7 +135,7 @@ public class Clients extends Resource {
             }
             if(this.redditUserClientInfoDao.getUnauthorizedByRedditUserIdAddedBy(redditUser.getId(), userId).size() > 1) {
                 response.setError("You have reached your limit on unauthorized clients for this Reddit user.");
-                responseJson = gson.toJson(response, BaseResponse.class);
+                responseJson = this.gsonUtil.getGson().toJson(response, BaseResponse.class);
                 return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
             }
             clientInfo = new com.redditapp.entity.ClientInfo();
@@ -160,7 +158,7 @@ public class Clients extends Resource {
         else {
             response.setError("Client with ID already exists.");
         }
-        responseJson = gson.toJson(response, ClientsResponse.class);
+        responseJson = this.gsonUtil.getGson().toJson(response, ClientsResponse.class);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
     
@@ -170,7 +168,6 @@ public class Clients extends Resource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response deleteClient(@Context HttpHeaders headers, @QueryParam("id") int clientId) {
         BaseResponse response = new BaseResponse();
-        Gson gson = new Gson();
         int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
         RedditUserClientInfo redditUserClientInfo = this.redditUserClientInfoDao.getUnauthorizedByClientIdAddedBy(clientId, userId);
         if(redditUserClientInfo != null) {
@@ -181,7 +178,7 @@ public class Clients extends Resource {
         else {
             response.setError("You do not have permission to remove that.");
         }
-        String responseJson = gson.toJson(response, BaseResponse.class);
+        String responseJson = this.gsonUtil.getGson().toJson(response, BaseResponse.class);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
 

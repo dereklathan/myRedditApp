@@ -46,7 +46,7 @@ public T doPost(RedditUserClientInfo redditUserClientInfo, String path, Form for
         if(res.getStatus() == 200) {
             updateToken(res);
             String json = res.readEntity(String.class);
-            response = gson.fromJson(json, responseClass);
+            response = this.gsonUtil.getGson().fromJson(json, responseClass);
         }
         else {
             
