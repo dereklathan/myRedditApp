@@ -6,6 +6,8 @@
 package com.redditapp.dao;
 
 import com.redditapp.entity.Comment;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -14,6 +16,8 @@ import org.hibernate.query.Query;
  *
  * @author derek
  */
+@Named
+@ApplicationScoped
 public class CommentDao extends BaseDao<Comment> {
     public Comment getByPermalink(String permalink) {
         Comment comment = null;

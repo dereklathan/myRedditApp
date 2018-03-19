@@ -8,6 +8,7 @@ package com.redditapp.dao;
 import javax.inject.Named;
 import com.redditapp.entity.RedditUser;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import javax.persistence.NoResultException;
@@ -17,6 +18,7 @@ import javax.persistence.NoResultException;
  * @author derek
  */
 @Named
+@ApplicationScoped
 public class RedditUserDao extends BaseDao<RedditUser> {
     
     public RedditUserDao() {

@@ -6,6 +6,7 @@
 package com.redditapp.dao;
 
 import com.redditapp.entity.ClientInfo;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 import org.hibernate.Session;
@@ -16,6 +17,7 @@ import org.hibernate.query.Query;
  * @author derek
  */
 @Named
+@ApplicationScoped
 public class ClientInfoDao extends BaseDao<ClientInfo> {     
     
     public ClientInfo getClientInfoByClientId(String clientId) {

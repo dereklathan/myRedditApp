@@ -9,6 +9,7 @@ import com.redditapp.entity.ClientInfo;
 import com.redditapp.entity.RedditUser;
 import com.redditapp.entity.RedditUserClientInfo;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 import org.hibernate.Session;
@@ -19,6 +20,7 @@ import org.hibernate.query.Query;
  * @author derek
  */
 @Named
+@ApplicationScoped
 public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
     public List<RedditUserClientInfo> getRedditUserClientInfosByRedditUser(RedditUser redditUser) {
         List<RedditUserClientInfo> results;

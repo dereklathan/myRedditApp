@@ -7,6 +7,8 @@ package com.redditapp.dao;
 
 import com.redditapp.entity.VoteComment;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -15,6 +17,8 @@ import org.hibernate.query.Query;
  *
  * @author derek
  */
+@Named
+@ApplicationScoped
 public class VoteCommentDao extends BaseDao<VoteComment> {
 
     public VoteComment getByRedditUserIdAndCommentId(int redditUserId, int commentId) {

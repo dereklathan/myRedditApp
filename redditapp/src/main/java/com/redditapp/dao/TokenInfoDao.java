@@ -7,6 +7,7 @@ package com.redditapp.dao;
 
 import com.redditapp.entity.TokenInfo;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -16,6 +17,7 @@ import org.hibernate.query.Query;
  * @author derek
  */
 @Named
+@ApplicationScoped
 public class TokenInfoDao extends BaseDao<TokenInfo> {
     
     public List<TokenInfo> getAll() {

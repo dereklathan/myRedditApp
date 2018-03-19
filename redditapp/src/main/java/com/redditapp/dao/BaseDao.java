@@ -7,6 +7,7 @@ package com.redditapp.dao;
 import com.redditapp.entity.BaseEntity;
 import com.redditapp.hibernate.HibernateUtil;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
@@ -19,6 +20,7 @@ import org.hibernate.query.Query;
  * @param <T extends BaseEntity>
  */
 @Named
+@Dependent 
 public class BaseDao<T extends BaseEntity> {
     @Inject private HibernateUtil hibernateUtil;
     protected SessionFactory sessionFactory;
