@@ -11,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 /**
  *
  * @author derek
+ * 
  */
 
 @Singleton
@@ -30,6 +31,5 @@ public class Properties {
     
     public RedditClientProperties getRedditClientProperties() {
         return redditClientProperties;
-    }
-    
+    } 
 }
