@@ -13,7 +13,6 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
 
 
 /**
@@ -32,7 +31,6 @@ import org.hibernate.service.ServiceRegistry;
 @ApplicationScoped
 public class HibernateUtil {
     private SessionFactory sessionFactory;
-    private ServiceRegistry serviceRegistry;
     
     public HibernateUtil() {
         try {
