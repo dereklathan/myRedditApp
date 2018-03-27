@@ -5,7 +5,6 @@
  */
 package com.redditapp.rest.resource;
 
-import com.google.gson.Gson;
 import com.redditapp.dao.CommentDao;
 import com.redditapp.dao.LinkDao;
 import com.redditapp.dao.RedditUserClientInfoDao;
@@ -18,6 +17,7 @@ import com.redditapp.entity.RedditUserClientInfo;
 import com.redditapp.entity.Subreddit;
 import com.redditapp.entity.VoteComment;
 import com.redditapp.entity.VoteLink;
+import com.redditapp.gson.GsonUtil;
 import com.redditapp.rest.client.response.CommentListingResponse;
 import com.redditapp.rest.resource.filter.AuthFilter;
 import java.time.LocalDateTime;
@@ -55,6 +55,7 @@ public class Vote extends Resource {
     @Inject private VoteCommentDao voteCommentDao;
     @Inject private VoteLinkDao voteLinkDao;
     @Inject private SubredditDao subredditDao;
+    @Inject private GsonUtil gsonUtil;
     
     private StringBuilder pathBuilder;
     
@@ -65,12 +66,11 @@ public class Vote extends Resource {
     public Response getThing(@Context HttpHeaders headers, @QueryParam("link") String link) {
         int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
         ListingResponse response = new ListingResponse();
-        Gson gson = new Gson();
         String responseJson;
         Boolean isComment = this.isComment(link);
         if(isComment == null) {
              response.setError("Link is invalid for some reason.");
-             responseJson = gson.toJson(response);
+             responseJson = gsonUtil.getGson().toJson(response);
              return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build(); 
         }
         List<RedditUserClientInfo> redditUserClientInfos = this.redditUserClientInfoDao.getAuthorizedAddedBy(userId);
@@ -166,7 +166,7 @@ public class Vote extends Resource {
             response.setError("You have no clients with available requests.");
         }
         
-        responseJson = gson.toJson(response);
+        responseJson = gsonUtil.getGson().toJson(response);
         System.out.println(responseJson);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
@@ -177,8 +177,7 @@ public class Vote extends Resource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response sumbitVote(@Context HttpHeaders headers, String request) {
         int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
-        Gson gson = new Gson();
-        VoteRequest voteRequest = gson.fromJson(request, VoteRequest.class);
+        VoteRequest voteRequest = gsonUtil.getGson().fromJson(request, VoteRequest.class);
         int newScore = voteRequest.getScore();
         Boolean isComment = this.isComment(voteRequest.getPermalink());
         ListingResponse response = new ListingResponse();
@@ -332,7 +331,7 @@ public class Vote extends Resource {
             this.voteLink(toUpVote, voteRequest.getThingId(), 1);
             this.voteLink(toDownVote, voteRequest.getThingId(), -1);
         }
-        String responseJson = gson.toJson(response);
+        String responseJson = gsonUtil.getGson().toJson(response);
         System.out.println(responseJson);
         return Response.ok(responseJson).header("Access-Control-Allow-Origin", "*").build();
     }
