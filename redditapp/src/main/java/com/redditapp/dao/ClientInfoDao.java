@@ -31,7 +31,6 @@ public class ClientInfoDao extends BaseDao<ClientInfo> {
             catch(NoResultException ex) {
                 //clientInfo = null
             }
-            session.getTransaction().commit();
         }
         return clientInfo;
     }

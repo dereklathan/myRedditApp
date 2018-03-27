@@ -32,7 +32,6 @@ public class UserDao extends BaseDao<User> {
             catch(NoResultException ex) {
                 // user = null
             }
-            session.getTransaction().commit();
         }
         return user;
     }
@@ -49,7 +48,6 @@ public class UserDao extends BaseDao<User> {
             catch(NoResultException ex) {
                 // user = null
             }
-            session.getTransaction().commit();
         }
         return user;
     }

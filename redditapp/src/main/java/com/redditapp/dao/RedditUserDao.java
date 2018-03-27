@@ -38,7 +38,6 @@ public class RedditUserDao extends BaseDao<RedditUser> {
             catch(NoResultException ex) {
                 //redditUser = null;
             }
-            session.getTransaction().commit();
         }
         return redditUser;
     }
@@ -57,7 +56,6 @@ public class RedditUserDao extends BaseDao<RedditUser> {
             catch(NoResultException ex) {
                 //redditUser = null;
             }
-            session.getTransaction().commit();
         }
         return redditUser;
     }
@@ -70,7 +68,6 @@ public class RedditUserDao extends BaseDao<RedditUser> {
                     .createQuery("from RedditUser r where r.addedBy.id = :addedBy order by r.username", RedditUser.class)
                     .setParameter("addedBy", addedById);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -82,7 +79,6 @@ public class RedditUserDao extends BaseDao<RedditUser> {
             Query query = session
                     .getNamedQuery("RedditUser.findAll"); 
             results = (List<RedditUser>)query.getResultList();
-            session.getTransaction().commit();
         }
         return results;
     }

@@ -32,7 +32,6 @@ public class CommentDao extends BaseDao<Comment> {
             catch(NoResultException ex) {
                 //comment = null;
             }
-            session.getTransaction().commit();
         }
         return comment;
     }
@@ -50,7 +49,6 @@ public class CommentDao extends BaseDao<Comment> {
             catch(NoResultException ex) {
                 // comment = null
             }
-            session.getTransaction().commit();
         }
         return comment;
     }

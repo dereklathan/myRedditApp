@@ -26,7 +26,6 @@ public class TokenInfoDao extends BaseDao<TokenInfo> {
             session.beginTransaction();
             Query query = session.getNamedQuery("TokenInfo.findAll");
             results = query.getResultList();
-            session.getTransaction().commit();
         }
         return results;
     }

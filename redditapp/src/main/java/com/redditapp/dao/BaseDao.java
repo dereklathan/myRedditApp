@@ -63,7 +63,6 @@ public class BaseDao<T extends BaseEntity> {
             catch(NoResultException ex) {
                 //entity = null;
             }
-            session.getTransaction().commit();
         }
         return entity;
     }

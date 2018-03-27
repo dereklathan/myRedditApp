@@ -35,7 +35,6 @@ public class VoteCommentDao extends BaseDao<VoteComment> {
             catch(NoResultException ex) {
                 //voteComment = null;
             }
-            session.getTransaction().commit();
         }
         return voteComment;
     }
@@ -54,7 +53,6 @@ public class VoteCommentDao extends BaseDao<VoteComment> {
             catch(NoResultException ex) {
                 //voteComment = null;
             }
-            session.getTransaction().commit();
         }
         return voteComment;
     }
@@ -68,7 +66,6 @@ public class VoteCommentDao extends BaseDao<VoteComment> {
                     .setParameter("userId", userId)
                     .setParameter("thingId", thingId);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -81,7 +78,6 @@ public class VoteCommentDao extends BaseDao<VoteComment> {
                     .createQuery("from VoteComment v where v.comment.thingId = :thingId", VoteComment.class)
                     .setParameter("thingId", thingId);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }

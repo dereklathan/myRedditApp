@@ -30,7 +30,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                     .createQuery("from RedditUserClientInfo r where r.redditUser = :redditUser", RedditUserClientInfo.class)
                     .setParameter("redditUser", redditUser);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -43,7 +42,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                     .createQuery("from RedditUserClientInfo r where r.redditUser.id = :redditUserId", RedditUserClientInfo.class)
                     .setParameter("redditUserId", redditUserId);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -56,7 +54,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                     .createQuery("from RedditUserClientInfo r where r.clientInfo = :clientInfo", RedditUserClientInfo.class)
                     .setParameter("clientInfo", clientInfo);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -75,7 +72,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
             catch(NoResultException ex) {
                 //redditUserClientInfo = null
             }
-            session.getTransaction().commit();
         }
         return redditUserClientInfo;
     }
@@ -89,7 +85,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                             + "and r.tokenInfo is not null")
                     .setParameter("redditUserId", redditUserId);
             results = query.getResultList();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -103,7 +98,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                             + "and r.tokenInfo is not null")
                     .setParameter("addedById", addedById);
             results = query.getResultList();
-            session.getTransaction().commit();
         }
         return results;         
     }
@@ -118,7 +112,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                     .setParameter("redditUserId", redditUserId)
                     .setParameter("addedById", addedById);
             results = query.getResultList();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -152,7 +145,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                     .setParameter("redditUserId", redditUserId)
                     .setParameter("addedById", addedById);
             results = query.getResultList();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -165,7 +157,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                     .createQuery("from RedditUserClientInfo r where r.redditUser.addedBy.id = :addedById and r.tokenInfo is null")
                     .setParameter("addedById", addedById);
             results = query.getResultList();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -182,7 +173,6 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                 redditUserClientInfo = (RedditUserClientInfo)query.getSingleResult();
             }
             catch(NoResultException ex) {
-                //redditUserClientInfo = null
             }
             session.getTransaction().commit();
         }

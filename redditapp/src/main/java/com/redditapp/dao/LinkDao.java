@@ -32,7 +32,6 @@ public class LinkDao extends BaseDao<Link> {
             catch(NoResultException ex) {
                 // link = null
             }
-            session.getTransaction().commit();
         }
         return link;
     }
@@ -49,7 +48,6 @@ public class LinkDao extends BaseDao<Link> {
             catch(NoResultException ex) {
                 // link = null;
             }
-            session.getTransaction().commit();
         }
         return link;
     }

@@ -35,7 +35,6 @@ public class VoteLinkDao extends BaseDao<VoteLink> {
             catch(NoResultException ex) {
                 //voteLink = null;
             }
-            session.getTransaction().commit();
         }
         return voteLink;
     }
@@ -54,7 +53,6 @@ public class VoteLinkDao extends BaseDao<VoteLink> {
             catch(NoResultException ex) {
                 //voteLink = null;
             }
-            session.getTransaction().commit();
         }
         return voteLink;
     }
@@ -68,7 +66,6 @@ public class VoteLinkDao extends BaseDao<VoteLink> {
                     .setParameter("userId", userId)
                     .setParameter("thingId", thingId);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }
@@ -81,7 +78,6 @@ public class VoteLinkDao extends BaseDao<VoteLink> {
                     .createQuery("from VoteLink v where v.link.thingId = :thingId", VoteLink.class)
                     .setParameter("thingId", thingId);
             results = query.list();
-            session.getTransaction().commit();
         }
         return results;
     }

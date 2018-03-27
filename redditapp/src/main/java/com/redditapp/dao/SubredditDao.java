@@ -32,7 +32,6 @@ public class SubredditDao extends BaseDao<Subreddit> {
             catch(NoResultException ex) {
                 // subreddit = null
             }
-            session.getTransaction().commit();
         }
         return subreddit;
     }
