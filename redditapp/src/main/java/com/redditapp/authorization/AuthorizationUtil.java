@@ -47,7 +47,6 @@ public class AuthorizationUtil {
             return true;
         }
         else {
-            System.out.println("error: " + accessTokenResponse.getError());
             return false;
         }
    }
