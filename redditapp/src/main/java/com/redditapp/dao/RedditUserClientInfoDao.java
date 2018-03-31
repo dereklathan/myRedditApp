@@ -173,8 +173,8 @@ public class RedditUserClientInfoDao extends BaseDao<RedditUserClientInfo> {
                 redditUserClientInfo = (RedditUserClientInfo)query.getSingleResult();
             }
             catch(NoResultException ex) {
+                //redditUserClientInfo==null
             }
-            session.getTransaction().commit();
         }
         return redditUserClientInfo;
     }
