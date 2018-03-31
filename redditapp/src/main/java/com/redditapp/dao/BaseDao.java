@@ -17,7 +17,7 @@ import org.hibernate.query.Query;
 /**
  *
  * @author derek
- * @param <T extends BaseEntity>
+ * @param <T> extends BaseEntity
  */
 @Named
 @Dependent 
