@@ -55,7 +55,6 @@ public class RedditUsers extends Resource {
         int userId = this.sessionPool.getSession(headers.getHeaderString("access-token")).getUserId();
         RedditUserResponse response = new RedditUserResponse();
         List<RedditUser> redditUsers = redditUserDao.getRedditUsersAddedById(userId);
-        RedditUserClientInfo redditUserClientInfo;
         boolean canDelete;
         for(RedditUser redditUser : redditUsers) {
             canDelete = this.redditUserClientInfoDao.getAuthorizedByRedditUserIdAddedBy(redditUser.getId(), userId).isEmpty();
