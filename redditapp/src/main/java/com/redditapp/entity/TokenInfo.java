@@ -43,7 +43,7 @@ public class TokenInfo extends BaseEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 32)
+    @Size(min = 1, max = 64)
     @Column(name = "access_token")
     private String accessToken;
     @Basic(optional = false)
