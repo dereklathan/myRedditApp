@@ -21,7 +21,7 @@ import javax.inject.Named;
 @Singleton
 @ApplicationScoped
 public class SessionPool {
-    Map<String,SessionData> sessions;
+    private Map<String,SessionData> sessions;
     
     public SessionPool() {
         sessions = new HashMap();
